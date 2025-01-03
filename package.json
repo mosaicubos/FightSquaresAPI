@@ -1,12 +1,19 @@
 {
   "name": "fightsquaresapi",
   "version": "1.0.0",
-  "main": "squareFightsAPI.js",
+  "main": "squareFightsAPI.js", 
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+       "start": "node squareFightsAPI.js",
+       "dev": "nodemon squareFightsAPI.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": ",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
 }
