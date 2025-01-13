@@ -2,7 +2,6 @@ const express = require("express");
 const { Mutex } = require("async-mutex");
 const app = express();
 app.use(express.text());
-const port = 3000;
 
 let servidoresDisponibles = [];
 
@@ -29,4 +28,5 @@ app.get('/joinRoom', async (req, res) => {
     return res.send(sala.toString());
 });
 
-app.listen(port);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
