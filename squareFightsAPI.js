@@ -1,23 +1,32 @@
 const express = require("express");
+const { Mutex } = require("async-mutex");
 const app = express();
 app.use(express.text());
+const port = 3000;
 
+let servidoresDisponibles = [];
 
-let currentWord = "";
+// Salas
+for (let i = 1; i <= 10000; i++) {
+    servidoresDisponibles.push(i);
+}
 
+const mutex = new Mutex();
 
-app.post("/send", (req,res) =>{
-    const word = req.body;
-    if(!word) return res.status(404).send("No hay palabra");
-    currentWord = word;
-    return res.status(200).send("Palabra recibida")
+app.get('/joinRoom', async (res) => {
+
+    let sala = -1;
+
+    //inicio sección crítica
+    const release = await mutex.acquire();
+
+    if (servidoresDisponibles.length > 0) sala = servidoresDisponibles.pop();
+
+    release();
+    // final seccion crítica
+
+    if (sala === -1) return res.sendStatus(503); 
+    return res.send(sala);
 });
 
-
-app.get("/receive", (req,res) =>{
-    if(!currentWord) return res.status(404).send("No word available")
-    return res.status(200).send(currentWord)
-})
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(port);
