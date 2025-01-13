@@ -13,7 +13,7 @@ for (let i = 1; i <= 10000; i++) {
 
 const mutex = new Mutex();
 
-app.get('/joinRoom', async (res) => {
+app.get('/joinRoom', async (req, res) => {
 
     let sala = -1;
 
@@ -26,7 +26,7 @@ app.get('/joinRoom', async (res) => {
     // final seccion crítica
 
     if (sala === -1) return res.sendStatus(503); 
-    return res.send(sala);
+    return res.send(sala.toString());
 });
 
 app.listen(port);
